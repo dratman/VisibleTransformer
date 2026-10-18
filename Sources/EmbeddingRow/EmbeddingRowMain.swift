@@ -20,8 +20,11 @@ struct EmbeddingRowApp: App {
 
     var body: some Scene {
         WindowGroup("Embedding Row") {
-            EmbeddingRowView(text: "the cat sa")
-                .padding(20)
+            HStack(alignment: .bottom, spacing: 30) {
+                EmbeddingRowView(text: "the cat sa")
+                ColorLegendView()
+            }
+            .padding(20)
         }
     }
 }
@@ -76,5 +79,34 @@ struct EmbeddingRowView: View {
                 .fill(Color(white: 0.7))
                 .frame(width: separatorWidth, height: separatorHeight)
         }
+    }
+}
+
+/// A vertical color strip showing what the line colors mean:
+/// red at +1 (top), white at 0 (middle), blue at -1 (bottom).
+struct ColorLegendView: View {
+    private let stripWidth: CGFloat = 24
+    private let stripHeight: CGFloat = 80   // same as the colored lines
+
+    var body: some View {
+        HStack(alignment: .top, spacing: 6) {
+            LinearGradient(
+                colors: [color(forValue: 1), color(forValue: 0), color(forValue: -1)],
+                startPoint: .top, endPoint: .bottom)
+                .frame(width: stripWidth, height: stripHeight)
+                .overlay(Rectangle().stroke(Color(white: 0.7), lineWidth: 1))
+            VStack(alignment: .leading) {
+                Text("+1")
+                Spacer()
+                Text("0")
+                Spacer()
+                Text("-1")
+            }
+            .font(.system(size: 12, design: .monospaced))
+            .frame(height: stripHeight)
+        }
+        // Lines up the strip with the colored lines, which sit above the
+        // 50-point character label.
+        .padding(.bottom, 50)
     }
 }
