@@ -1,0 +1,8 @@
+# Swift Package Manager build output
+.build/
+
+# Saved documents
+*.json
+
+# macOS Finder clutter
+.DS_Store
